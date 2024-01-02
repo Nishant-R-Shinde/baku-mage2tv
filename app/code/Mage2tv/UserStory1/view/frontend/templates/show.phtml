@@ -1,0 +1,8 @@
+<p> The values within the array are : </p>
+<ul>
+    <?php foreach($block->getArray() as $value): ?>
+        <li><?= $value ?></li>
+    <?php endforeach; ?>
+</ul>
+<p> The value of string is : </p>
+<div> <?= $block->getString(); ?> </div>
