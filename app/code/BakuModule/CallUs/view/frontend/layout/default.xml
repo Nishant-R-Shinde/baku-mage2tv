@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="header.container">
+            <block name="call_us" class="Magento\Framework\View\Element\Template" template="BakuModule_CallUs::callus.phtml" before="-" />
+            <block name="header-info" class="Magento\Framework\View\Element\Template" template="BakuModule_CallUs::header-information.phtml" after="call_us" />
+            <referenceContainer name="header.panel.wrapper" remove="true" />
+            <!-- <referenceBlock name="top.search">
+                <block name="advanced-search-link" remove="true" />
+            </referenceBlock> -->
+        </referenceContainer>
+        <referenceContainer name="footer-container">
+            <referenceContainer name="footer" remove="true" />
+            <block name="new-footer" class="Magento\Framework\View\Element\Template" template="BakuModule_CallUs::html/footer.phtml" />
+        </referenceContainer>
+    </body>
+</page>

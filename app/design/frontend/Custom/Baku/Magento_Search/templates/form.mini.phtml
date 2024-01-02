@@ -1,0 +1,72 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+?>
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $escaper \Magento\Framework\Escaper */
+/** @var $configProvider \Magento\Search\ViewModel\ConfigProvider */
+$configProvider = $block->getData('configProvider');
+/** @var $versionManager \Magento\Search\ViewModel\AdditionalSearchFormData */
+$additionalSearchFormData = $block->getData('additionalSearchFormData');
+/** @var $helper \Magento\Search\Helper\Data */
+$helper = $configProvider->getSearchHelperData();
+$allowedSuggestion = $configProvider->isSuggestionsAllowed();
+$quickSearchUrl = $allowedSuggestion ? $escaper->escapeUrl($helper->getSuggestUrl()) : '';
+?>
+<div class="block block-search">
+    <div class="block block-title"><strong>
+            <?= $escaper->escapeHtml(__('Search')) ?>
+        </strong></div>
+    <div class="block block-content">
+        <form class="form minisearch" id="search_mini_form" action="<?= $escaper->escapeUrl($helper->getResultUrl()) ?>"
+            method="get">
+            <?php if (!empty($queryParams = $additionalSearchFormData->getFormData())): ?>
+                <?php foreach ($queryParams as $param): ?>
+                    <input type="hidden" name="<?= $escaper->escapeHtmlAttr($param['name']) ?>"
+                        value="<?= $escaper->escapeHtmlAttr($param['value']) ?>" />
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <div class="field search">
+                <label class="label" for="search" data-role="minisearch-label">
+                    <span>
+                        <?= $escaper->escapeHtml(__('Search')) ?>
+                    </span>
+                </label>
+                <div class="control">
+                    <input id="search" data-mage-init='{
+                            "quickSearch": {
+                                "formSelector": "#search_mini_form",
+                                "url": "<?= /* @noEscape */$quickSearchUrl ?>",
+                                "destinationSelector": "#search_autocomplete",
+                                "minSearchLength": "<?= $escaper->escapeHtml($helper->getMinQueryLength()) ?>"
+                            }
+                        }' type="text" name="<?= $escaper->escapeHtmlAttr($helper->getQueryParamName()) ?>"
+                        value="<?= /* @noEscape */$helper->getEscapedQueryText() ?>"
+                        placeholder="<?= $escaper->escapeHtmlAttr(__('Search by product name, code, brand...')) ?>"
+                        class="input-text" maxlength="<?= $escaper->escapeHtmlAttr($helper->getMaxQueryLength()) ?>"
+                        role="combobox" aria-haspopup="false" aria-autocomplete="both" autocomplete="off"
+                        aria-expanded="false" />
+                    <div id="search_autocomplete" class="search-autocomplete"></div>
+                    <?= $block->getChildHtml() ?>
+                </div>
+            </div>
+            <button class="search-btn-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                    <mask id="mask0_8_3318" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                        height="30">
+                        <rect width="30" height="30" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_8_3318)">
+                        <path
+                            d="M24.426 25.7178L16.575 17.8669C15.95 18.3829 15.2312 18.7867 14.4187 19.0784C13.6062 19.3701 12.7657 19.5159 11.8971 19.5159C9.76066 19.5159 7.95251 18.7762 6.47268 17.2967C4.99285 15.8173 4.25293 14.0096 4.25293 11.8737C4.25293 9.73778 4.99266 7.92943 6.47212 6.44866C7.95157 4.96791 9.75926 4.22754 11.8952 4.22754C14.0311 4.22754 15.8394 4.96746 17.3202 6.44729C18.8009 7.92712 19.5413 9.73527 19.5413 11.8717C19.5413 12.7643 19.3915 13.6169 19.0918 14.4294C18.7921 15.2419 18.3923 15.9486 17.8923 16.5496L25.7432 24.4006L24.426 25.7178ZM11.8971 17.641C13.5077 17.641 14.8719 17.0821 15.9897 15.9643C17.1075 14.8465 17.6664 13.4823 17.6664 11.8717C17.6664 10.2611 17.1075 8.89696 15.9897 7.77916C14.8719 6.66137 13.5077 6.10248 11.8971 6.10248C10.2865 6.10248 8.92235 6.66137 7.80455 7.77916C6.68678 8.89696 6.1279 10.2611 6.1279 11.8717C6.1279 13.4823 6.68678 14.8465 7.80455 15.9643C8.92235 17.0821 10.2865 17.641 11.8971 17.641Z"
+                            fill="white" />
+                    </g>
+                </svg>
+            </button>
+        </form>
+    </div>
+</div>

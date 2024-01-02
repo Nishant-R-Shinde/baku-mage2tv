@@ -1,0 +1,29 @@
+.svg-block {
+    display: block;
+}
+
+.header-options {
+    display: flex;
+    gap: 13px;
+    align-items: center;
+
+    a {
+        &> span.counter.qty {
+            position: absolute;
+            right: 6px;
+            bottom: 30px;
+            font-size: 9px;
+            background-color: red;
+            border-radius: 50%;
+            width: 13px;
+            height: 13px;
+            color: white;
+            text-align: center;
+            font-weight: 600;
+            line-height: 13px;
+        }
+        .empty {
+            display: none;
+        }
+    }
+}
